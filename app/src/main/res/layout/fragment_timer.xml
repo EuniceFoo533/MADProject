@@ -1,17 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Timer"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="353dp"
+                android:layout_height="465dp"
+                android:src="@drawable/timer_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.195" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progress="100"
+                app:indicatorColor="@color/dark_blue"
+                app:indicatorDirectionCircular="clockwise"
+                app:indicatorInset="5dp"
+                app:indicatorSize="300dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:layout_constraintVertical_bias="0.322"
+                app:trackColor="@color/white"
+                app:trackCornerRadius="20dp"
+                app:trackThickness="23dp" />
+
+            <TextView
+                android:id="@+id/tvCountDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00 : 25 : 00"
+                android:textColor="@color/white"
+                android:textSize="45sp"
+                app:layout_constraintBottom_toBottomOf="@+id/progressBar2"
+                app:layout_constraintEnd_toEndOf="@+id/progressBar2"
+                app:layout_constraintStart_toStartOf="@+id/progressBar2"
+                app:layout_constraintTop_toTopOf="@+id/progressBar2" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="132dp"
+                android:background="@drawable/button"
+                android:drawableEnd="@drawable/start_timer"
+                android:text="Start"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="56dp"
+                android:background="@drawable/button"
+                android:drawableEnd="@drawable/reset_timer"
+                android:text="RESET"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>
