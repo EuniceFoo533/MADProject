@@ -89,30 +89,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/buttonStart" />
 
-            <EditText
-                android:id="@+id/editTimer"
+            <TextView
+                android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:ems="10"
-                android:hint="Enter the timer here..."
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.248"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:fontFamily="@font/poppinsbold"
 
-            <Button
-                android:id="@+id/buttonSet"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/button"
-                android:text="SET"
+                android:text="Timer"
+                android:textColor="@color/blue"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.836"
+                app:layout_constraintHorizontal_bias="0.09"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

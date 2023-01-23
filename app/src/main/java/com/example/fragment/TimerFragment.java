@@ -74,17 +74,6 @@ public class TimerFragment extends Fragment {
         });
         updateCountDownText();
 
-        editTimer = getView().findViewById(R.id.editTimer);
-        buttonSet = getView().findViewById(R.id.buttonSet);
-        buttonSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long time = Long.parseLong(editTimer.getText().toString())*60000;
-                timeLeftMilis = time;
-                editTimer.setText("");
-            }
-        });
-
     }
 
     //Method start timer
