@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="170dp"
-    android:background="@color/teal_200"
+    android:background="@color/blue"
     android:gravity="bottom"
     android:padding="20dp"
     android:orientation="vertical">
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lemon Soft"
+        android:text="Eunice Aisyah"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
