@@ -20,11 +20,5 @@
             android:title="Location"/>
     </group>
 
-    <item android:title="Communicate">
-        <menu>
 
-            <item
-                android:id="id/share"/>
-        </menu>
-    </item>
 </menu>
