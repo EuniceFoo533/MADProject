@@ -22,6 +22,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -181,7 +183,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                     @Override
                     public void onClick(View view) {
                         key = mID.getText().toString();
-                        userID = model.getUser_id();
                         name = mName.getText().toString();
                         desc = mDesc.getText().toString();
                         date = mDate.getText().toString();
@@ -238,18 +239,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                             tasks.put("task_time",time);
                             tasks.put("prior_level",priorLevel);
                             tasks.put("prior_color",priorColor);
-                            tasks.put("user_id",userID);
 
-                            db.collection("Task").document(key).update(tasks)
+
+                            db.collection("List").document(key).update(tasks)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(context, "Task has been updated succesfully", Toast.LENGTH_SHORT).show();
                                             loader.dismiss();
 
-                                            Intent myactivity = new Intent(context.getApplicationContext(), ToDoListFragment.class);
-                                            myactivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                                            context.getApplicationContext().startActivity(myactivity);
+                                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                            Fragment myFragment = new ToDoListFragment();
+                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, myFragment).addToBackStack(null).commit();
 
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -276,7 +277,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                         builder.setCancelable(false);
 
                         builder.setPositiveButton("Yes",(DialogInterface.OnClickListener)(dialog, which) -> {
-                            db.collection("Task").document(data).delete()
+                            db.collection("List").document(data).delete()
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {

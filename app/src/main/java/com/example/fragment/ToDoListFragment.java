@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ToDoListFragment extends Fragment {
+public class ToDoListFragment extends Fragment{
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
     String userID;
@@ -101,8 +102,7 @@ public class ToDoListFragment extends Fragment {
         taskList = new ArrayList<Model>();
         adapterTask = new TaskAdapter(getContext(),taskList);
 
-        db.collection("Task")
-                .whereEqualTo("user_id",userID)
+        db.collection("List")
                 .orderBy("prior_color", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -118,8 +118,7 @@ public class ToDoListFragment extends Fragment {
                                     snapshot.getString("task_date"),
                                     snapshot.getString("task_time"),
                                     snapshot.getString("prior_level"),
-                                    snapshot.getString("prior_color"),
-                                    snapshot.getString("user_id"));
+                                    snapshot.getString("prior_color"));
                             taskList.add(model);
                         }
                         adapterTask.notifyDataSetChanged();
@@ -265,11 +264,10 @@ public class ToDoListFragment extends Fragment {
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
 
-                    ref = db.collection("Task").document();
+                    ref = db.collection("List").document();
                     String id = ref.getId();
 
                     Map<String,Object> tasks = new HashMap<>();
-                    tasks.put("user_id",userID);
                     tasks.put("task_name",mTask);
                     tasks.put("task_desc",mDescription);
                     tasks.put("task_date",mDate);
@@ -277,7 +275,7 @@ public class ToDoListFragment extends Fragment {
                     tasks.put("prior_level",priorLevel);
                     tasks.put("prior_color",priorColor);
 
-                    db.collection("Task")
+                    db.collection("List")
                             .add(tasks)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
