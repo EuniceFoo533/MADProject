@@ -59,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Meeting Room",Toast.LENGTH_SHORT).show();
                         fragment(new MeetingFragment());
                         break;
+
+                    case R.id.feedback:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(MainActivity.this,"Feedback",Toast.LENGTH_SHORT).show();
+                        fragment(new FeedbackFragment());
+                        break;
                 }
 
                 return true;

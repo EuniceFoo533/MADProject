@@ -18,6 +18,11 @@
             android:id="@+id/meeting"
             android:icon="@drawable/ic_baseline_meeting_room_24"
             android:title="Meeting Room"/>
+
+        <item
+            android:id="@+id/feedback"
+            android:icon="@drawable/ic_baseline_feedback_24"
+            android:title="Feedback"/>
     </group>
 
 
