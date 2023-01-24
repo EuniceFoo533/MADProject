@@ -15,6 +15,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -32,6 +38,8 @@ public class TimerFragment extends Fragment {
     private boolean timerStopping;
 
     private long timeLeftMilis=START_TIME_IN_MILIS;
+
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
     public TimerFragment() {
         // Required empty public constructor
@@ -54,8 +62,21 @@ public class TimerFragment extends Fragment {
 
         buttonStart = getView().findViewById(R.id.buttonStart);
         buttonStart.setOnClickListener(new View.OnClickListener() {
+            String key = reference.push().getKey();
+
+            SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+            String date = currentDate.format(new Date());
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm aa");
+            String time = currentTime.format(calendar.getTime());
+
             @Override
             public void onClick(View v) {
+
+                Timer timer = new Timer(key,date,time);
+
+                reference.child("Timer").child(key).setValue(timer);
                 if (timerRunning) {
                     pauseTimer();
                 } else {

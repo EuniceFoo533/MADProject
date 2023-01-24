@@ -18,7 +18,7 @@
             android:src="@drawable/meeting_room" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonJoin"
             android:layout_gravity="center"
             android:background="@drawable/button"
             android:layout_width="300dp"
