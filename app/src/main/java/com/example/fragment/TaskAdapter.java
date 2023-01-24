@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -43,8 +46,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
     String key, name, desc, date, time, priorLevel,priorColor;
     int mYear, mMonth, mDay, mHour, mMinute;
     String userID;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     ProgressDialog loader;
+
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("ToDoList");
+
+
 
     public TaskAdapter(Context context, ArrayList<Model> list)
     {
@@ -69,18 +75,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 
         holder.taskName.setText(model.getTask_name());
         holder.priorLevel.setText(model.getPriority_level());
-        if(model.getPriorColor().equals("A Red"))
+        if(model.getPrior_color()!= null && model.getPrior_color().equals("A Red"))
         {
             holder.btnPrior.setBackgroundColor(Color.RED);
 
         }
 
-        else if(model.getPriorColor().equals("B Yellow"))
+        else if(model.getPrior_color()!= null && model.getPrior_color().equals("B Yellow"))
         {
             holder.btnPrior.setBackgroundColor(Color.YELLOW);
         }
 
-        else if(model.getPriorColor().equals("C Green"))
+        else if(model.getPrior_color()!= null && model.getPrior_color().equals("C Green"))
         {
             holder.btnPrior.setBackgroundColor(Color.GREEN);
         }
@@ -232,22 +238,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                             loader.setCanceledOnTouchOutside(false);
                             loader.show();
 
-                            Map<String,Object> tasks = new HashMap<>();
-                            tasks.put("task_name",name);
-                            tasks.put("task_desc",desc);
-                            tasks.put("task_date",date);
-                            tasks.put("task_time",time);
-                            tasks.put("prior_level",priorLevel);
-                            tasks.put("prior_color",priorColor);
 
+                            Model model = new Model(key,name,desc,date,time,priorLevel,priorColor);
 
-                            db.collection("List").document(key).update(tasks)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            reference.child(key)
+                                    .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>()
+                                    {
                                         @Override
                                         public void onSuccess(Void unused) {
-                                            Toast.makeText(context, "Task has been updated succesfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context,"Task successfully added",Toast.LENGTH_SHORT).show();
                                             loader.dismiss();
-
                                             AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                             Fragment myFragment = new ToDoListFragment();
                                             activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, myFragment).addToBackStack(null).commit();
@@ -256,10 +256,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "Error adding document",Toast.LENGTH_SHORT).show();
                                             loader.dismiss();
                                         }
                                     });
+
                             dialog.dismiss();
                         }
                     }
@@ -277,7 +278,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                         builder.setCancelable(false);
 
                         builder.setPositiveButton("Yes",(DialogInterface.OnClickListener)(dialog, which) -> {
-                            db.collection("List").document(data).delete()
+                           reference.child(data).removeValue()
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {

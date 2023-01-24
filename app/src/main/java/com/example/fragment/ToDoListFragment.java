@@ -31,6 +31,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -44,9 +49,7 @@ import java.util.Map;
 
 
 public class ToDoListFragment extends Fragment{
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseUser user;
-    String userID;
+
 
     int mYear, mMonth, mDay, mHour, mMinute;
     EditText edtDate,edtTime;
@@ -55,7 +58,7 @@ public class ToDoListFragment extends Fragment{
     RecyclerView recyclerView;
 
     FirebaseFirestore db;
-    DocumentReference ref;
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("ToDoList");
 
     ProgressDialog loader;
 
@@ -101,37 +104,35 @@ public class ToDoListFragment extends Fragment{
         db = FirebaseFirestore.getInstance();
         taskList = new ArrayList<Model>();
         adapterTask = new TaskAdapter(getContext(),taskList);
-
-        db.collection("List")
-                .orderBy("prior_color", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        taskList.clear();
-
-                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
-
-                            Model model= new Model(snapshot.getId(),
-                                    snapshot.getString("task_name"),
-                                    snapshot.getString("task_desc"),
-                                    snapshot.getString("task_date"),
-                                    snapshot.getString("task_time"),
-                                    snapshot.getString("prior_level"),
-                                    snapshot.getString("prior_color"));
-                            taskList.add(model);
-                        }
-                        adapterTask.notifyDataSetChanged();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Opps", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
         recyclerView.setAdapter(adapterTask);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item:snapshot.getChildren())
+                {
+                    String id = item.child("task_id").getValue(String.class);
+                    String name = item.child("task_name").getValue(String.class);
+                    String desc = item.child("task_description").getValue(String.class);
+                    String date = item.child("date").getValue(String.class);
+                    String time = item.child("time").getValue(String.class);
+                    String prior = item.child("priority_level").getValue(String.class);
+                    String color = item.child("prior_color").getValue(String.class);
+                    Model model = new Model(id,name,desc,date,time,prior,color);
+
+                    taskList.add(model);
+                }
+                adapterTask.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
     }
 
     public void addTask()
@@ -264,40 +265,30 @@ public class ToDoListFragment extends Fragment{
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
 
-                    ref = db.collection("List").document();
-                    String id = ref.getId();
+                    String key = reference.push().getKey();
 
-                    Map<String,Object> tasks = new HashMap<>();
-                    tasks.put("task_name",mTask);
-                    tasks.put("task_desc",mDescription);
-                    tasks.put("task_date",mDate);
-                    tasks.put("task_time",mTime);
-                    tasks.put("prior_level",priorLevel);
-                    tasks.put("prior_color",priorColor);
+                    Model model = new Model(key,mTask,mDescription,mDate,mTime,priorLevel,priorColor);
 
-                    db.collection("List")
-                            .add(tasks)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    reference.child(key)
+                            .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>()
+                            {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-
+                                public void onSuccess(Void unused) {
                                     Toast.makeText(getContext(),"Task successfully added",Toast.LENGTH_SHORT).show();
                                     loader.dismiss();
                                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                     Fragment myFragment = new ToDoListFragment();
                                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, myFragment).addToBackStack(null).commit();
 
-
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
+                            }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(getContext(), "Error adding document",Toast.LENGTH_SHORT).show();
                                     loader.dismiss();
-
                                 }
                             });
+
                 }
                 dialog.dismiss();
             }

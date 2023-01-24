@@ -2,47 +2,13 @@ package com.example.fragment;
 
 public class Model {
 
-    private String task_id,task_name,task_description,date,time,priority_level,prior_color,user_id;
-    private boolean completed_task;
-
-    public Model(boolean completed_task)
-    {
-        this.completed_task = completed_task;
-    }
-
-    public Model(String task_id, String task_name, String task_description, String date, String time, String priority_level, String prior_color) {
-        this.task_id = task_id;
-        this.task_name = task_name;
-        this.task_description = task_description;
-        this.date = date;
-        this.time = time;
-        this.priority_level = priority_level;
-        this.prior_color = prior_color;
-    }
-
-
-    public Model()
-    {
-
-    }
-
-
-    public String getPriorColor() {
-        return prior_color;
-    }
-
-    public void setPriorColor(String priorColor) {
-        this.prior_color = prior_color;
-    }
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
-
+    private String task_id;
+    private String task_name;
+    private String task_description;
+    private String date;
+    private String time;
+    private String priority_level;
+    private String prior_color;
 
     public String getTask_id() {
         return task_id;
@@ -68,14 +34,6 @@ public class Model {
         this.task_description = task_description;
     }
 
-    public String getPriority_level() {
-        return priority_level;
-    }
-
-    public void setPriority_level(String priority_level) {
-        this.priority_level = priority_level;
-    }
-
     public String getDate() {
         return date;
     }
@@ -92,21 +50,32 @@ public class Model {
         this.time = time;
     }
 
-    public boolean isCompleted_task() {
-        return completed_task;
+    public String getPriority_level() {
+        return priority_level;
     }
 
-    public void setCompleted_task(boolean completed_task) {
-        this.completed_task = completed_task;
+    public void setPriority_level(String priority_level) {
+        this.priority_level = priority_level;
+    }
+
+    public String getPrior_color() {
+        return prior_color;
+    }
+
+    public void setPrior_color(String prior_color) {
+        this.prior_color = prior_color;
     }
 
 
-
-
-
-
-
-
+    public Model(String task_id, String task_name, String task_description, String date, String time, String priority_level, String prior_color) {
+        this.task_id = task_id;
+        this.task_name = task_name;
+        this.task_description = task_description;
+        this.date = date;
+        this.time = time;
+        this.priority_level = priority_level;
+        this.prior_color = prior_color;
+    }
 
 
 }
