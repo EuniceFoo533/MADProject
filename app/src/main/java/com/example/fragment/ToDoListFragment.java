@@ -106,7 +106,7 @@ public class ToDoListFragment extends Fragment{
         adapterTask = new TaskAdapter(getContext(),taskList);
         recyclerView.setAdapter(adapterTask);
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.orderByChild("prior_color").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot item:snapshot.getChildren())
@@ -187,6 +187,7 @@ public class ToDoListFragment extends Fragment{
 
                             }
                         }, mYear, mMonth, mDay);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
 
             }
@@ -239,7 +240,7 @@ public class ToDoListFragment extends Fragment{
 
                 if(priorLevel.equals("Low"))
                 {
-                    priorColor = "C Green";
+                    priorColor = "A Green";
                 }
 
                 else if(priorLevel.equals("Medium"))
@@ -249,7 +250,7 @@ public class ToDoListFragment extends Fragment{
 
                 else if(priorLevel.equals("High"))
                 {
-                    priorColor = "A Red";
+                    priorColor = "C Red";
                 }
 
 

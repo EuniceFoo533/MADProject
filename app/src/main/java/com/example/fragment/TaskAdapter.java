@@ -75,7 +75,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 
         holder.taskName.setText(model.getTask_name());
         holder.priorLevel.setText(model.getPriority_level());
-        if(model.getPrior_color()!= null && model.getPrior_color().equals("A Red"))
+        if(model.getPrior_color()!= null && model.getPrior_color().equals("C Red"))
         {
             holder.btnPrior.setBackgroundColor(Color.RED);
 
@@ -86,7 +86,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
             holder.btnPrior.setBackgroundColor(Color.YELLOW);
         }
 
-        else if(model.getPrior_color()!= null && model.getPrior_color().equals("C Green"))
+        else if(model.getPrior_color()!= null && model.getPrior_color().equals("A Green"))
         {
             holder.btnPrior.setBackgroundColor(Color.GREEN);
         }
@@ -139,6 +139,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 
                                     }
                                 }, mYear, mMonth, mDay);
+
+                        datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                         datePickerDialog.show();
 
                     }
@@ -197,7 +199,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 
                         if(priorLevel.equals("Low"))
                         {
-                            priorColor = "C Green";
+                            priorColor = "A Green";
                         }
 
 
@@ -208,7 +210,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 
                         if(priorLevel.equals("High"))
                         {
-                            priorColor = "A Red";
+                            priorColor = "C Red";
                         }
 
                         if (TextUtils.isEmpty(name)) {
@@ -283,6 +285,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(context, "Task has been deleted succesfully", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+
 
                                             AppCompatActivity activity = (AppCompatActivity) view.getContext();
                                             Fragment myFragment = new ToDoListFragment();
@@ -295,8 +299,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                             Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
 
 
+
                                         }
+
+
                                     });
+
                         });
 
                         builder.setNegativeButton("No",(DialogInterface.OnClickListener) (dialog,which) -> {
@@ -304,7 +312,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                         });
                         builder.show();
 
-
+                        dialog.dismiss();
                     }
                 });
                 dialog.show();
