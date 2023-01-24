@@ -283,10 +283,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(context, "Task has been deleted succesfully", Toast.LENGTH_SHORT).show();
 
-                                            Intent myactivity = new Intent(context.getApplicationContext(), ToDoListFragment.class);
-                                            myactivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                                            context.getApplicationContext().startActivity(myactivity);
-
+                                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                            Fragment myFragment = new ToDoListFragment();
+                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, myFragment).addToBackStack(null).commit();
 
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {

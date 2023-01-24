@@ -283,8 +283,10 @@ public class ToDoListFragment extends Fragment{
 
                                     Toast.makeText(getContext(),"Task successfully added",Toast.LENGTH_SHORT).show();
                                     loader.dismiss();
-                                    getActivity().finish();
-                                    startActivity(getActivity().getIntent());
+                                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                    Fragment myFragment = new ToDoListFragment();
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, myFragment).addToBackStack(null).commit();
+
 
                                 }
                             })

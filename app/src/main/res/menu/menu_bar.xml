@@ -15,9 +15,9 @@
             android:title="To Do List"/>
 
         <item
-            android:id="@+id/location"
-            android:icon="@drawable/ic_baseline_location_on_24"
-            android:title="Location"/>
+            android:id="@+id/meeting"
+            android:icon="@drawable/ic_baseline_meeting_room_24"
+            android:title="Meeting Room"/>
     </group>
 
 

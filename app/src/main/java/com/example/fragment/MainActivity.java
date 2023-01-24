@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"To Do List",Toast.LENGTH_SHORT).show();
                         fragment(new ToDoListFragment());
                         break;
+
+                    case R.id.meeting:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        Toast.makeText(MainActivity.this,"Meeting Room",Toast.LENGTH_SHORT).show();
+                        fragment(new MeetingFragment());
+                        break;
                 }
 
                 return true;

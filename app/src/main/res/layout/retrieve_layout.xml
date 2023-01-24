@@ -42,7 +42,7 @@
                     android:layout_weight="1">
 
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonPriorColor"
                         android:background="@drawable/custom_prior"
                         android:layout_width="20dp"
