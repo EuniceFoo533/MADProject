@@ -14,19 +14,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blue"
-            app:title="Toolbar"
-            app:titleTextColor="@color/white"
             android:elevation="3dp"
-            android:id="@+id/toolbar"/>
+            app:titleTextColor="@color/white" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
 
     </LinearLayout>

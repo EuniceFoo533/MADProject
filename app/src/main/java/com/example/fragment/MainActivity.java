@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-
+        fragment(new MainFragment());
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
