@@ -33,8 +33,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import ftmk.bitp3453.authenticationapp.R;
-import ftmk.bitp3453.authenticationapp.firebase.Model;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
 {
@@ -249,7 +247,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                             Toast.makeText(context, "Task has been updated succesfully", Toast.LENGTH_SHORT).show();
                                             loader.dismiss();
 
-                                            Intent myactivity = new Intent(context.getApplicationContext(), TaskActivity.class);
+                                            Intent myactivity = new Intent(context.getApplicationContext(), ToDoListFragment.class);
                                             myactivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
                                             context.getApplicationContext().startActivity(myactivity);
 
@@ -284,7 +282,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                                         public void onSuccess(Void unused) {
                                             Toast.makeText(context, "Task has been deleted succesfully", Toast.LENGTH_SHORT).show();
 
-                                            Intent myactivity = new Intent(context.getApplicationContext(), TaskActivity.class);
+                                            Intent myactivity = new Intent(context.getApplicationContext(), ToDoListFragment.class);
                                             myactivity.addFlags(FLAG_ACTIVITY_NEW_TASK);
                                             context.getApplicationContext().startActivity(myactivity);
 

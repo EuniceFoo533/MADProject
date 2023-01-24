@@ -31,7 +31,7 @@ public class TimerFragment extends Fragment {
     private  boolean timerRunning;
     private boolean timerStopping;
 
-    private long timeLeftMilis;
+    private long timeLeftMilis=START_TIME_IN_MILIS;
 
     public TimerFragment() {
         // Required empty public constructor
