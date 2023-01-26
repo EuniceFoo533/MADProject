@@ -9,6 +9,29 @@ public class Model {
     private String time;
     private String priority_level;
     private String prior_color;
+    private String user_id;
+
+    public Model(String task_id, String task_name, String task_description, String date, String time, String priority_level, String prior_color, String user_id) {
+        this.task_id = task_id;
+        this.task_name = task_name;
+        this.task_description = task_description;
+        this.date = date;
+        this.time = time;
+        this.priority_level = priority_level;
+        this.prior_color = prior_color;
+        this.user_id = user_id;
+    }
+
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+
 
     public String getTask_id() {
         return task_id;
@@ -67,7 +90,7 @@ public class Model {
     }
 
 
-    public Model(String task_id, String task_name, String task_description, String date, String time, String priority_level, String prior_color) {
+    public Model(String task_id, String task_name, String task_description, String date, String time, String priority_level, String prior_color ) {
         this.task_id = task_id;
         this.task_name = task_name;
         this.task_description = task_description;
@@ -75,6 +98,7 @@ public class Model {
         this.time = time;
         this.priority_level = priority_level;
         this.prior_color = prior_color;
+
     }
 
 

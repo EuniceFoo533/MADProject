@@ -1,16 +1,13 @@
 package com.example.fragment;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +26,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
@@ -45,7 +40,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
     ArrayList<Model> list;
     String key, name, desc, date, time, priorLevel,priorColor;
     int mYear, mMonth, mDay, mHour, mMinute;
-    String userID;
+
     ProgressDialog loader;
 
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("ToDoList");
@@ -69,8 +64,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
     @Override
     public void onBindViewHolder(@NonNull TaskAdapter.MyViewHolder holder, int position) {
         Model model = list.get(position);
-
-
+        String userID = model.getUser_id();
         holder.taskID.setText(model.getTask_id());
 
         holder.taskName.setText(model.getTask_name());
@@ -241,7 +235,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder>
                             loader.show();
 
 
-                            Model model = new Model(key,name,desc,date,time,priorLevel,priorColor);
+                            Model model = new Model(key,name,desc,date,time,priorLevel,priorColor, userID);
 
                             reference.child(key)
                                     .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>()

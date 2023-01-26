@@ -24,28 +24,19 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class ToDoListFragment extends Fragment{
@@ -57,6 +48,7 @@ public class ToDoListFragment extends Fragment{
     FloatingActionButton btnAdd;
     RecyclerView recyclerView;
 
+    FirebaseAuth firebaseAuth =FirebaseAuth.getInstance();
     FirebaseFirestore db;
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("ToDoList");
 
@@ -66,6 +58,8 @@ public class ToDoListFragment extends Fragment{
     TaskAdapter adapterTask;
 
     String priorColor;
+    String userID = firebaseAuth.getCurrentUser().getUid();
+
 
     public ToDoListFragment() {
         // Required empty public constructor
@@ -106,21 +100,27 @@ public class ToDoListFragment extends Fragment{
         adapterTask = new TaskAdapter(getContext(),taskList);
         recyclerView.setAdapter(adapterTask);
 
-        reference.orderByChild("prior_color").addValueEventListener(new ValueEventListener() {
+        reference
+                .orderByChild("prior_color").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot item:snapshot.getChildren())
                 {
-                    String id = item.child("task_id").getValue(String.class);
-                    String name = item.child("task_name").getValue(String.class);
-                    String desc = item.child("task_description").getValue(String.class);
-                    String date = item.child("date").getValue(String.class);
-                    String time = item.child("time").getValue(String.class);
-                    String prior = item.child("priority_level").getValue(String.class);
-                    String color = item.child("prior_color").getValue(String.class);
-                    Model model = new Model(id,name,desc,date,time,prior,color);
+                    if(userID!= null && item.child("user_id").getValue(String.class).equals(userID))
+                    {
+                        String id = item.child("task_id").getValue(String.class);
+                        String name = item.child("task_name").getValue(String.class);
+                        String desc = item.child("task_description").getValue(String.class);
+                        String date = item.child("date").getValue(String.class);
+                        String time = item.child("time").getValue(String.class);
+                        String prior = item.child("priority_level").getValue(String.class);
+                        String color = item.child("prior_color").getValue(String.class);
+                        String uID = item.child("user_id").getValue(String.class);
+                        Model model = new Model(id,name,desc,date,time,prior,color,uID);
 
-                    taskList.add(model);
+                        taskList.add(model);
+                    }
+
                 }
                 adapterTask.notifyDataSetChanged();
             }
@@ -268,7 +268,8 @@ public class ToDoListFragment extends Fragment{
 
                     String key = reference.push().getKey();
 
-                    Model model = new Model(key,mTask,mDescription,mDate,mTime,priorLevel,priorColor);
+
+                    Model model = new Model(key,mTask,mDescription,mDate,mTime,priorLevel,priorColor,userID);
 
                     reference.child(key)
                             .setValue(model).addOnSuccessListener(new OnSuccessListener<Void>()
