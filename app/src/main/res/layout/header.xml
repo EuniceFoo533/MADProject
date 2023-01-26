@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"/>
-    
+    p
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eunice Aisyah"
+        android:text="E-Focus"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
