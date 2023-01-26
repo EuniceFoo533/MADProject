@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,6 +41,8 @@ public class TimerFragment extends Fragment {
     private long timeLeftMilis=START_TIME_IN_MILIS;
 
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String userID = firebaseAuth.getCurrentUser().getUid();
 
     public TimerFragment() {
         // Required empty public constructor
@@ -74,7 +77,7 @@ public class TimerFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Timer timer = new Timer(key,date,time);
+                Timer timer = new Timer(key,date,time,userID);
 
                 reference.child("Timer").child(key).setValue(timer);
                 if (timerRunning) {

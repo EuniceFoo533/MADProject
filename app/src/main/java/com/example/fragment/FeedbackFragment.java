@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,10 +27,13 @@ public class FeedbackFragment extends Fragment {
     EditText email,suggestion;
     RadioButton btnYes,btnNo;
     Button btnSubmit;
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String uEmail = firebaseAuth.getCurrentUser().getEmail();
     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
 
 
-    String uKey,uEmail,uSelect,uSuggest;
+    String uKey,uSelect,uSuggest;
     public FeedbackFragment() {
         // Required empty public constructor
     }
@@ -45,6 +49,9 @@ public class FeedbackFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         email = getView().findViewById(R.id.editEmail);
+        email.setText(uEmail);
+        email.setEnabled(false);
+
         suggestion = getView().findViewById(R.id.editSuggestion);
         btnYes = getView().findViewById(R.id.yes);
         btnNo = getView().findViewById(R.id.no);
@@ -76,7 +83,6 @@ public class FeedbackFragment extends Fragment {
                             @Override
                             public void onSuccess(Void unused) {
                                 Toast.makeText(getActivity(),"Thanks for your feedback", Toast.LENGTH_SHORT).show();
-                                email.setText("");
                                 suggestion.setText("");
 
                             }

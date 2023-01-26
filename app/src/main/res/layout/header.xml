@@ -15,6 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppinsbold"
         android:text="E-Focus"
         android:textColor="@color/white"
         android:textSize="16sp"
@@ -24,7 +25,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="d031810327@gmail.com"
+        android:fontFamily="@font/poppinsmedium"
+        android:text="\nHelp and Support:\nd031810327@gmail.com"
         android:textColor="@color/white"
         android:textSize="14sp"/>
 
