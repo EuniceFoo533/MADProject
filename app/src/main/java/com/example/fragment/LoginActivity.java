@@ -3,6 +3,7 @@ package com.example.fragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -52,12 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Reset password
         tvForgetPassword = findViewById(R.id.textViewForgetPassword);
-        tvForgetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         //Button register
         tvRegister = findViewById(R.id.textViewRegister);
@@ -140,6 +136,28 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+    public void resetPassword(View vw)
+    {
+        EditText resetEmail = new EditText(vw.getContext());
+
+        AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(vw.getContext());
+        passwordResetDialog.setTitle("Reset Password?");
+        passwordResetDialog.setMessage("Enter Your Email To Received Reset Link");
+        passwordResetDialog.setView(resetEmail);
+        passwordResetDialog.setPositiveButton("Yes" , (dialog, which) -> {
+            String mail = resetEmail.getText().toString();
+            firebaseAuth.sendPasswordResetEmail(mail).addOnSuccessListener(unused -> Toast.makeText(LoginActivity.this, "Reset Link Sent To Your Email", Toast.LENGTH_SHORT).show()
+
+            ).addOnFailureListener(e -> Toast.makeText(LoginActivity.this, "Error reset link" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        });
+        passwordResetDialog.setNegativeButton("No", (dialog, which) -> {
+
+        });
+
+        passwordResetDialog.create().show();
+
+    }
+
 
     private void changesInProgress(boolean inProgress)
     {
